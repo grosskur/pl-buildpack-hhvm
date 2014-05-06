@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# fail fast
+set -o errexit
+set -o nounset
+set -o pipefail
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+scriptname=$(basename $0)
+case $# in
+  1) :;;
+  *) echo "$scriptname: usage: $scriptname BUILD_DIR" >&2; exit 2;;
+esac
+
+build_dir="$1"
+
+cat <<EOT
+packages:
+  - autoconf
+  - automake
+  - binutils-dev
+  - build-essential
+  - ccache
+  - cmake
+  - g++
+  - git
+  - libboost-dev
+  - libboost-filesystem-dev
+  - libboost-program-options-dev
+  - libboost-regex-dev
+  - libboost-system-dev
+  - libboost-thread-dev
+  - libbz2-dev
+  - libc-client-dev
+  - libc-client2007e-dev
+  - libcap-dev
+  - libcurl4-openssl-dev
+  - libdwarf-dev
+  - libedit-dev
+  - libelf-dev
+  - libexpat-dev
+  - libevent-dev
+  - libgd2-xpm-dev
+  - libgoogle-glog-dev
+  - libgoogle-perftools-dev
+  - libiberty-dev
+  - libiconv-hook-dev
+  - libicu-dev
+  - libinotifytools0-dev
+  - libjemalloc-dev
+  - libmagickwand-dev
+  - libmcrypt-dev
+  - libmemcached-dev
+  - libmysqlclient-dev
+  - libncurses-dev
+  - libonig-dev
+  - libpcre3-dev
+  - libreadline-dev
+  - libtbb-dev
+  - libtool
+  - libxml2-dev
+  - libxslt1-dev
+  - ocaml-native-compilers
+  - zlib1g-dev
+EOT

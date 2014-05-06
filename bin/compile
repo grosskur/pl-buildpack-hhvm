@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# fail fast
+set -o errexit
+set -o nounset
+set -o pipefail
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+scriptname=$(basename $0)
+case $# in
+  2) :;;
+  *) echo "$scriptname: usage: $scriptname BUILD_DIR CACHE_DIR" >&2; exit 2;;
+esac
+
+build_dir="$1"
+cache_dir="$2"
+ccache_max_size=50G
+num_cpu=$(grep -c ^bogomips /proc/cpuinfo)
+
+export CCACHE_DIR=$cache_dir/ccache
+export PATH=/usr/lib/ccache:$PATH
+
+echo "-----> Zeroing ccache stats"
+ccache -M $ccache_max_size 2>&1 | indent
+ccache -z 2>&1 | indent
+
+echo "-----> Compiling hhvm"
+cd $build_dir >/dev/null 2>&1
+cmake .
+make
+cd - >/dev/null 2>&1

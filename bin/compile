@@ -29,6 +29,6 @@ ccache -z 2>&1 | indent
 
 echo "-----> Compiling hhvm"
 cd $build_dir >/dev/null 2>&1
-cmake .
-make
+cmake . 2>&1 | indent
+make -j$num_cpu 2>&1 | indent
 cd - >/dev/null 2>&1
